@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="x-icue-interactive">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tr('Team Randomizer')</title>
+  <link rel="icon" type="image/svg+xml" href="images/team-randomizer.svg">
+  <meta
+    name="x-icue-restrictions"
+    data-restrictions='[{"device": "dashboard_lcd","features": ["sensor-screen"]}]'
+  >
+
+  <meta name="x-icue-property" content="name1" data-label="tr('Name 1')" data-type="textfield" data-default="''">
+  <meta name="x-icue-property" content="name2" data-label="tr('Name 2')" data-type="textfield" data-default="''">
+  <meta name="x-icue-property" content="name3" data-label="tr('Name 3')" data-type="textfield" data-default="''">
+  <meta name="x-icue-property" content="name4" data-label="tr('Name 4')" data-type="textfield" data-default="''">
+  <meta name="x-icue-property" content="name5" data-label="tr('Name 5')" data-type="textfield" data-default="''">
+  <meta name="x-icue-property" content="name6" data-label="tr('Name 6')" data-type="textfield" data-default="''">
+  <meta name="x-icue-property" content="name7" data-label="tr('Name 7')" data-type="textfield" data-default="''">
+  <meta name="x-icue-property" content="name8" data-label="tr('Name 8')" data-type="textfield" data-default="''">
+  <meta name="x-icue-property" content="name9" data-label="tr('Name 9')" data-type="textfield" data-default="''">
+  <meta name="x-icue-property" content="name10" data-label="tr('Name 10')" data-type="textfield" data-default="''">
+
+  <meta name="x-icue-property" content="titleA" data-label="tr('Team A Label')" data-type="textfield" data-default="'Team A'">
+  <meta name="x-icue-property" content="titleB" data-label="tr('Team B Label')" data-type="textfield" data-default="'Team B'">
+  <meta name="x-icue-property" content="accentColor" data-label="tr('Accent Color')" data-type="color" data-default="'#F08E33'">
+  <meta name="x-icue-property" content="textColor" data-label="tr('Text Color')" data-type="color" data-default="'#FFFFFF'">
+  <meta name="x-icue-property" content="backgroundColor" data-label="tr('Background')" data-type="color" data-default="'#0E0E0E'">
+
+  <script type="application/json" id="x-icue-groups">
+  [
+    {
+      "title": "tr('Players')",
+      "properties": ["name1", "name2", "name3", "name4", "name5", "name6", "name7", "name8", "name9", "name10"]
+    },
+    {
+      "title": "tr('Appearance')",
+      "properties": ["titleA", "titleB", "accentColor", "textColor", "backgroundColor"]
+    }
+  ]
+  </script>
+
+  <style>
+    :root {
+      --accent-color: #F08E33;
+      --text-color: #FFFFFF;
+      --background-color: #0E0E0E;
+    }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: var(--background-color);
+      color: var(--text-color);
+    }
+
+    body {
+      position: relative;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .board {
+      position: absolute;
+      inset: 0 0 14vmin 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 2vmin;
+      box-sizing: border-box;
+    }
+
+    .team {
+      width: 45%;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 4vmin;
+      margin-bottom: 2vmin;
+      color: var(--accent-color);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .player-list {
+      min-height: 36vmin;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.8vmin;
+    }
+
+    .player {
+      font-size: 3vmin;
+      line-height: 1.2;
+      padding: 0.8vmin 1.2vmin;
+      border-radius: 1.4vmin;
+      background: rgba(255,255,255,0.05);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .controls {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 2.4vmin;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .shuffle-root {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .shuffle-button {
+      border: 0;
+      outline: 0;
+      min-width: 24vmin;
+      padding: 1.6vmin 3.2vmin;
+      border-radius: 999px;
+      font-size: 2.4vmin;
+      font-weight: 800;
+      color: #111111;
+      background: var(--accent-color);
+      cursor: pointer;
+    }
+
+    #emptyState {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4vmin;
+      font-size: 3vmin;
+      color: #BBBBBB;
+    }
+
+    body.empty #emptyState {
+      display: flex;
+    }
+
+    body.empty .board,
+    body.empty .controls {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="board">
+    <div class="team">
+      <div class="title" id="teamATitle">Team A</div>
+      <div class="player-list" id="teamA"></div>
+    </div>
+
+    <div class="team">
+      <div class="title" id="teamBTitle">Team B</div>
+      <div class="player-list" id="teamB"></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="shuffle-root" role="button" aria-label="Shuffle teams">
+      <button class="shuffle-button" id="shuffleButton">Shuffle</button>
+    </div>
+  </div>
+
+  <div id="emptyState">Add player names in widget settings.</div>
+
+  <script type="module">
+    const teamAEl = document.getElementById("teamA");
+    const teamBEl = document.getElementById("teamB");
+    const teamATitleEl = document.getElementById("teamATitle");
+    const teamBTitleEl = document.getElementById("teamBTitle");
+    const shuffleButton = document.getElementById("shuffleButton");
+
+    let currentNames = [];
+    let spinning = false;
+
+    icueEvents = {
+      "onDataUpdated": onIcueDataUpdated,
+      "onICUEInitialized": onIcueInitialized
+    };
+
+    async function onIcueInitialized() {
+      shuffleButton.textContent = await tr("Shuffle");
+      document.getElementById("emptyState").textContent = await tr("Add player names in widget settings.");
+      applyTheme();
+      refreshNames();
+      renderFreshShuffle();
+
+      shuffleButton.addEventListener("click", () => {
+        if (!spinning) {
+          spinning = true;
+          spinShuffle();
+        }
+      });
+    }
+
+    function onIcueDataUpdated() {
+      applyTheme();
+      if (spinning) return;
+      refreshNames();
+      renderFreshShuffle();
+    }
+
+    function applyTheme() {
+      document.documentElement.style.setProperty("--accent-color", `${accentColor}`);
+      document.documentElement.style.setProperty("--text-color", `${textColor}`);
+      document.documentElement.style.setProperty("--background-color", `${backgroundColor}`);
+      teamATitleEl.textContent = titleA || "Team A";
+      teamBTitleEl.textContent = titleB || "Team B";
+    }
+
+    function getNames() {
+      return [
+        name1, name2, name3, name4, name5,
+        name6, name7, name8, name9, name10
+      ].filter(n => typeof n === "string" && n.trim() !== "");
+    }
+
+    function refreshNames() {
+      currentNames = getNames();
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function splitTeams(names) {
+      const mid = Math.ceil(names.length / 2);
+      return {
+        teamA: names.slice(0, mid),
+        teamB: names.slice(mid)
+      };
+    }
+
+    function renderList(container, items) {
+      container.innerHTML = "";
+      items.forEach((text) => {
+        const div = document.createElement("div");
+        div.className = "player";
+        div.textContent = text;
+        container.appendChild(div);
+      });
+    }
+
+    function renderTeams(names) {
+      const parts = splitTeams(names);
+      renderList(teamAEl, parts.teamA);
+      renderList(teamBEl, parts.teamB);
+    }
+
+    function renderFreshShuffle() {
+      if (!currentNames.length) {
+        document.body.classList.add("empty");
+        teamAEl.innerHTML = "";
+        teamBEl.innerHTML = "";
+        return;
+      }
+
+      document.body.classList.remove("empty");
+      renderTeams(shuffle([...currentNames]));
+    }
+
+    function makeCyclingFrame(names, offset) {
+      const out = [];
+      for (let i = 0; i < names.length; i++) {
+        out.push(names[(i + offset) % names.length]);
+      }
+      return out;
+    }
+
+    async function spinShuffle() {
+      if (!currentNames.length) {
+        spinning = false;
+        return;
+      }
+
+      shuffleButton.textContent = "Shuffling...";
+
+      const names = [...currentNames];
+
+      for (let i = 0; i < 8; i++) {
+        renderTeams(makeCyclingFrame(names, i));
+        await new Promise(resolve => setTimeout(resolve, 120));
+      }
+
+      renderTeams(shuffle([...names]));
+      shuffleButton.textContent = "Shuffle";
+      spinning = false;
+    }
+
+    if (typeof iCUE_initialized !== "undefined" && iCUE_initialized) {
+      onIcueInitialized();
+    }
+  </script>
+</body>
+</html>

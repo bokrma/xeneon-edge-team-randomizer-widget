@@ -1,0 +1,57 @@
+{
+  "en": {
+    "translation": {
+      "Team Randomizer": "Team Randomizer",
+      "Players": "Players",
+      "Appearance": "Appearance",
+      "Name 1": "Name 1",
+      "Name 2": "Name 2",
+      "Name 3": "Name 3",
+      "Name 4": "Name 4",
+      "Name 5": "Name 5",
+      "Name 6": "Name 6",
+      "Name 7": "Name 7",
+      "Name 8": "Name 8",
+      "Name 9": "Name 9",
+      "Name 10": "Name 10",
+      "Team A Label": "Team A Label",
+      "Team B Label": "Team B Label",
+      "Accent Color": "Accent Color",
+      "Text Color": "Text Color",
+      "Background": "Background",
+      "Shuffle Duration (ms)": "Shuffle Duration (ms)",
+      " ms": " ms",
+      "Shuffle": "Shuffle",
+      "Add player names in widget settings.": "Add player names in widget settings."
+    }
+  },
+  "de": {
+    "translation": {
+      "Team Randomizer": "Team-Zufallsauswahl",
+      "Players": "Spieler",
+      "Appearance": "Aussehen",
+      "Name 1": "Name 1",
+      "Name 2": "Name 2",
+      "Name 3": "Name 3",
+      "Name 4": "Name 4",
+      "Name 5": "Name 5",
+      "Name 6": "Name 6",
+      "Name 7": "Name 7",
+      "Name 8": "Name 8",
+      "Name 9": "Name 9",
+      "Name 10": "Name 10",
+      "Team A Label": "Team-A-Name",
+      "Team B Label": "Team-B-Name",
+      "Accent Color": "Akzentfarbe",
+      "Text Color": "Textfarbe",
+      "Background": "Hintergrund",
+      "Shuffle Duration (ms)": "Mischdauer (ms)",
+      " ms": " ms",
+      "Shuffle": "Mischen",
+      "Add player names in widget settings.": "Spielernamen in den Widget-Einstellungen hinzufügen."
+    }
+  },
+  "en_FAKE": {
+    "translation": {}
+  }
+}
